@@ -4,9 +4,6 @@ class MessengerService
   end
 
   def call
-    return send_message(email_confirm_message) if postback_payload == "offers" || postback_payload == "price"
-    return send_message(message("please visit our website")) if email_message?
-
     send_message(welcome_message)
   end
 
@@ -30,8 +27,8 @@ class MessengerService
                   text: text,
                   buttons: [{
                     type: "web_url",
-                          url: "https://www.truecar.com/prices-new/porsche/718-cayman-pricing",
-                          title: "TrueCar",
+                          url: "",
+                          title: "Ariana",
                           messenger_extensions: true,
                           webview_height_ratio: "full"
                   }]
@@ -42,30 +39,17 @@ class MessengerService
   end
 
   def welcome_message
-    user = Facebook::MessengerClient.new.user_info(sender_id)
+    user = MessengerClient.new.user_info(sender_id)
     {
       recipient: {
         id: sender_id
       },
         message: {
-          attachment: {
-            type: "template",
-              payload: {
-                template_type: "generic",
-                  elements: [
-                    {
-                      title: "Hi! #{user['first_name']} #{user['last_name']}, Welcome to TrueBuying",
-                         image_url: "",
-                         buttons: [
-                           { type: "postback", title: "View Offers", payload: "offers" },
-                           { type: "postback", title: "View Price", payload: "price" }
-                         ]
-                    }
-                  ]
-              }
-          }
+          text: "hello #{user['first_name']}, my name is Ariana!"
         }
     }
+  rescue StandardError
+    nil
   end
   # rubocop:enable Metrics/MethodLength
 

@@ -26,10 +26,10 @@ class MessengerClient
   end
 
   def page_access_token
-    ENV["FACEBOOK_PAGE_ACCESS_TOKEN"]
+    FACEBOOK_PAGE_ACCESS_TOKEN
   end
 
   def graph_url
-    ENV["FACEBOOK_GRAPH_BASE_URL"]
+    FACEBOOK_GRAPH_BASE_URL
   end
 end
